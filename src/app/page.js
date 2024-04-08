@@ -13,8 +13,8 @@ export default function Home() {
     negative_prompt: "",
     seed: -1,
     steps: 30,
-    width: 512,
-    height: 512,
+    width: null,
+    height: null,
   });
   const [images, setImages] = useState(""); // [image1, image2, image3, ...
 
