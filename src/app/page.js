@@ -39,7 +39,7 @@ export default function Home() {
     console.log("asbduyhsag");
     await axios
       .post(
-        "http://localhost:7860/sdapi/v1/txt2img",
+        "https://pleasant-introduce-fonts-kings.trycloudflare.com/sdapi/v1/txt2img",
         {
           prompt: data.prompt,
           negative_prompt: data.negative_prompt,
