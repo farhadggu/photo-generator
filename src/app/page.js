@@ -36,10 +36,9 @@ export default function Home() {
   console.log(data);
 
   const handleSubmit = async () => {
-    console.log("asbduyhsag");
     await axios
       .post(
-        "https://declaration-cumulative-select-armor.trycloudflare.com/sdapi/v1/txt2img",
+        process.env.NEXT_PUBLIC_API_URL,
         {
           prompt: data.prompt,
           negative_prompt: data.negative_prompt,
