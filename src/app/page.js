@@ -2,9 +2,11 @@
 import { useState } from "react";
 import { ImMagicWand } from "react-icons/im";
 import axios from "axios";
+import Loading from "@/components/Loading";
 
 export default function Home() {
   const [activeButton, setActiveButton] = useState("");
+  const [loading, setLoading] = useState(false);
   const [flagFocus, setFlagFocus] = useState(""); // [true, false, true, ...
   const [data, setData] = useState({
     prompt: "",
@@ -36,6 +38,7 @@ export default function Home() {
   console.log(data);
 
   const handleSubmit = async () => {
+    setLoading(true);
     await axios
       .post(
         process.env.NEXT_PUBLIC_API_URL,
@@ -55,9 +58,9 @@ export default function Home() {
         }
       )
       .then(async (res) => {
+        setLoading(false);
         const { images } = await res.json();
         setImages(images);
-        console.log("tamam");
       });
   };
 
@@ -65,9 +68,6 @@ export default function Home() {
 
   return (
     <main className="bg-[#0a0b0f] w-full h-[100vh] flex flex-col items-center py-4">
-      <div className="size-40 h-8">
-        <img src="logo.png" className="w-full" />
-      </div>
       <div className="w-6/12 h-full mx-auto flex flex-col items-center justify-center gap-4">
         <div className="bg-[#18171c] p-4 w-full rounded-xl flex flex-col flex-start gap-4">
           <div className="relative w-full flex flex-col items-start">
@@ -84,7 +84,7 @@ export default function Home() {
               onBlur={() => !data.prompt && setFlagFocus("")}
               name="prompt"
               onChange={handleChange}
-              className="bg-transparent border-b border-[#a7a7a7] outline-none w-full"
+              className="text-white bg-transparent border-b border-[#a7a7a7] outline-none w-full"
               type="text"
               maxLength="150"
             />
@@ -103,7 +103,7 @@ export default function Home() {
               onBlur={() => !data.negative_prompt && setFlagFocus("")}
               name="negative_prompt"
               onChange={handleChange}
-              className="bg-transparent border-b border-[#a7a7a7] outline-none w-full"
+              className="text-white bg-transparent border-b border-[#a7a7a7] outline-none w-full"
               type="text"
               maxLength="75"
             />
@@ -114,7 +114,7 @@ export default function Home() {
           <div className="flex flex-col items-start">
             <div className="flex items-center gap-4">
               <button
-                className={`border border-[#a7a7a7] w-full px-4 py-2 rounded-xl transition-colors duration-300 ${
+                className={`border border-[#a7a7a7] w-full px-4 py-2 rounded-xl transition-colors duration-300 text-white ${
                   activeButton === "512" && "shadow-md shadow-[#2375fc] !border-[#2375fc]"
                 }`}
                 onClick={() => {
@@ -125,8 +125,8 @@ export default function Home() {
                 512
               </button>
               <button
-                className={`border border-[#a7a7a7] w-full px-4 py-2 rounded-xl transition-colors duration-300 ${
-                  activeButton === "1024" && "shadow-md shadow-[#2375fc] border-[#2375fc]"
+                className={`border border-[#a7a7a7] w-full px-4 py-2 rounded-xl transition-colors duration-300 text-white ${
+                  activeButton === "1024" && "shadow-md shadow-[#2375fc] !border-[#2375fc]"
                 }`}
                 onClick={() => {
                   setData((prev) => ({ ...prev, width: 1024, height: 1024 }));
@@ -139,15 +139,24 @@ export default function Home() {
           </div>
 
           <button
-            className="bg-[#2375fc] text-white flex items-center gap-2 justify-center p-4 rounded-xl text-lg"
+            className="bg-[#2375fc] text-white flex items-center gap-2 justify-center p-4 h-[62px] rounded-xl text-lg"
             onClick={() => handleSubmit()}
+            disabled={!data.prompt || !data.width || !data.height}
           >
-            Generate <ImMagicWand />
+            {loading ? (
+              <Loading />
+            ) : (
+              <>
+                Generate <ImMagicWand />
+              </>
+            )}
           </button>
         </div>
 
-        <div className="bg-[#18171c] p-4 w-full rounded-xl flex items-center justify-center">
-          <img className="rounded-xl" src={images ? images : "empty.jpg"} />
+        <div className="bg-[#18171c] p-4 w-full rounded-xl flex items-center justify-center h-full">
+          <div className="size-40 h-8">
+            <img src={images ? images : "logo.png"} className="w-full" />
+          </div>
         </div>
       </div>
     </main>
