@@ -39,7 +39,7 @@ export default function Home() {
     console.log("asbduyhsag");
     await axios
       .post(
-        "https://pleasant-introduce-fonts-kings.trycloudflare.com/sdapi/v1/txt2img",
+        "http://localhost:7860/sdapi/v1/txt2img",
         {
           prompt: data.prompt,
           negative_prompt: data.negative_prompt,
@@ -74,7 +74,7 @@ export default function Home() {
           <div className="relative w-full flex flex-col items-start">
             <label
               className={`text-[#a7a7a7] translate-y-4transition-all duration-300 ${
-                flagFocus === "prompt-focus" && "-0ranslate-y-2 text-[#2375fc] text-sm"
+                flagFocus === "prompt-focus" && "-0ranslate-y-2 !text-[#2375fc] text-sm"
               }`}
             >
               Your Prompt...
@@ -93,7 +93,7 @@ export default function Home() {
           <div className="relative w-full flex flex-col items-start">
             <label
               className={`text-[#a7a7a7]  transition-all duration-300 ${
-                flagFocus === "prompt-neg-focus" && "-translate-y-0 text-[#2375fc] text-sm"
+                flagFocus === "prompt-neg-focus" && "-translate-y-0 !text-[#2375fc] text-sm"
               }`}
             >
               Your Negative Prompt...
@@ -116,7 +116,7 @@ export default function Home() {
             <div className="flex items-center gap-4">
               <button
                 className={`border border-[#a7a7a7] w-full px-4 py-2 rounded-xl transition-colors duration-300 ${
-                  activeButton === "512" && "shadow-md shadow-[#2375fc] border-[#2375fc]"
+                  activeButton === "512" && "shadow-md shadow-[#2375fc] !border-[#2375fc]"
                 }`}
                 onClick={() => {
                   setData((prev) => ({ ...prev, width: 512, height: 512 }));
