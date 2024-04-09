@@ -1,0 +1,26 @@
+diff --git a/node_modules/next/dist/esm/server/lib/incremental-cache/index.js b/node_modules/next/dist/esm/server/lib/incremental-cache/index.js
+index cc7a320..123c019 100644
+--- a/node_modules/next/dist/esm/server/lib/incremental-cache/index.js
++++ b/node_modules/next/dist/esm/server/lib/incremental-cache/index.js
+@@ -355,7 +355,7 @@ export class IncrementalCache {
+         // FetchCache has upper limit of 2MB per-entry currently
+         if (ctx.fetchCache && // we don't show this error/warning when a custom cache handler is being used
+         // as it might not have this limit
+-        !this.hasCustomCacheHandler && JSON.stringify(data).length > 2 * 1024 * 1024) {
++        !this.hasCustomCacheHandler && JSON.stringify(data).length > 10 * 1024 * 1024) {
+             if (this.dev) {
+                 throw new Error(`fetch for over 2MB of data can not be cached`);
+             }
+diff --git a/node_modules/next/dist/server/lib/incremental-cache/index.js b/node_modules/next/dist/server/lib/incremental-cache/index.js
+index be894e9..104c7b7 100644
+--- a/node_modules/next/dist/server/lib/incremental-cache/index.js
++++ b/node_modules/next/dist/server/lib/incremental-cache/index.js
+@@ -382,7 +382,7 @@ class IncrementalCache {
+         // FetchCache has upper limit of 2MB per-entry currently
+         if (ctx.fetchCache && // we don't show this error/warning when a custom cache handler is being used
+         // as it might not have this limit
+-        !this.hasCustomCacheHandler && JSON.stringify(data).length > 2 * 1024 * 1024) {
++        !this.hasCustomCacheHandler && JSON.stringify(data).length > 10 * 1024 * 1024) {
+             if (this.dev) {
+                 throw new Error(`fetch for over 2MB of data can not be cached`);
+             }

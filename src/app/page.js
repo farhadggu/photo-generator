@@ -39,36 +39,22 @@ export default function Home() {
 
   const handleSubmit = async () => {
     setLoading(true);
-    await axios
-      .post(
-        process.env.NEXT_PUBLIC_API_URL,
-        {
-          prompt: data.prompt,
-          negative_prompt: data.negative_prompt,
-          seed: -1,
-          steps: 30,
-          width: data.width,
-          height: data.height,
-        },
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then(async (res) => {
+    await fetch("/api/export-img", { method: "POST", body: JSON.stringify(data) }).then(
+      async (res) => {
         setLoading(false);
-        const { images } = await res.json();
-        setImages(images);
-      });
+        console.log(res);
+        const { image } = await res.json();
+        console.log(image);
+        setImages(image);
+      }
+    );
   };
 
   console.log(flagFocus);
 
   return (
-    <main className="bg-[#0a0b0f] w-full h-[100vh] flex flex-col items-center py-4">
-      <div className="w-6/12 h-full mx-auto flex flex-col items-center justify-center gap-4">
+    <main className="bg-[#0a0b0f] w-full min-h-[100vh] h-full flex flex-col items-center justify-center py-4">
+      <div className="w-full lg:w-6/12 h-full mx-auto flex flex-col items-center justify-center gap-4">
         <div className="bg-[#18171c] p-4 w-full rounded-xl flex flex-col flex-start gap-4">
           <div className="relative w-full flex flex-col items-start">
             <label
@@ -154,9 +140,15 @@ export default function Home() {
         </div>
 
         <div className="bg-[#18171c] p-4 w-full rounded-xl flex items-center justify-center h-full">
-          <div className="size-40 h-8">
-            <img src={images ? images : "logo.png"} className="w-full" />
-          </div>
+          {images ? (
+            <div className="w-full h-full">
+              <img src={`data:image/png;base64,${images}`} className="w-full h-full object-cover" />
+            </div>
+          ) : (
+            <div className="">
+              <img src={"logo.png"} className="w-full h-full " />
+            </div>
+          )}
         </div>
       </div>
     </main>
