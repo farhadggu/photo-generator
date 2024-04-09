@@ -35,8 +35,6 @@ export default function Home() {
     }
   };
 
-  console.log(data);
-
   const handleSubmit = async () => {
     setLoading(true);
     await fetch("/api/export-img", { method: "POST", body: JSON.stringify(data) }).then(
@@ -50,11 +48,12 @@ export default function Home() {
     );
   };
 
-  console.log(flagFocus);
-
   return (
     <main className="bg-[#0a0b0f] w-full min-h-[100vh] h-full flex flex-col items-center justify-center py-4">
       <div className="w-full lg:w-6/12 h-full mx-auto flex flex-col items-center justify-center gap-4">
+        <div className="">
+          <img src={"logo.png"} className="w-full h-full " />
+        </div>
         <div className="bg-[#18171c] p-4 w-full rounded-xl flex flex-col flex-start gap-4">
           <div className="relative w-full flex flex-col items-start">
             <label
@@ -127,7 +126,7 @@ export default function Home() {
           <button
             className="bg-[#2375fc] text-white flex items-center gap-2 justify-center p-4 h-[62px] rounded-xl text-lg"
             onClick={() => handleSubmit()}
-            disabled={!data.prompt || !data.width || !data.height}
+            disabled={!data.prompt || !data.width || !data.height || loading}
           >
             {loading ? (
               <Loading />
@@ -138,15 +137,10 @@ export default function Home() {
             )}
           </button>
         </div>
-
         <div className="bg-[#18171c] p-4 w-full rounded-xl flex items-center justify-center h-full">
-          {images ? (
+          {images && (
             <div className="w-full h-full">
               <img src={`data:image/png;base64,${images}`} className="w-full h-full object-cover" />
-            </div>
-          ) : (
-            <div className="">
-              <img src={"logo.png"} className="w-full h-full " />
             </div>
           )}
         </div>
