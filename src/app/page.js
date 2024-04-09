@@ -5,7 +5,7 @@ import axios from "axios";
 import Loading from "@/components/Loading";
 
 export default function Home() {
-  const [activeButton, setActiveButton] = useState("");
+  const [activeButton, setActiveButton] = useState("512");
   const [loading, setLoading] = useState(false);
   const [flagFocus, setFlagFocus] = useState(""); // [true, false, true, ...
   const [data, setData] = useState({
@@ -13,8 +13,8 @@ export default function Home() {
     negative_prompt: "",
     seed: -1,
     steps: 30,
-    width: null,
-    height: null,
+    width: 512,
+    height: 512,
   });
   const [images, setImages] = useState(""); // [image1, image2, image3, ...
 
@@ -48,6 +48,10 @@ export default function Home() {
     );
   };
 
+  const handleOpenImage = () => {
+    window.open(`data:image/png;base64,${images}`, "_blank");
+  }
+
   return (
     <main className="bg-[#0a0b0f] w-full min-h-[100vh] flex flex-col items-center justify-start py-4">
       <div className="w-full lg:w-6/12 h-full mx-auto flex flex-col items-center justify-center gap-4">
@@ -69,7 +73,7 @@ export default function Home() {
               onChange={handleChange}
               className="text-white bg-transparent border-b border-[#a7a7a7] outline-none w-full"
               type="text"
-              maxLength="150"
+              maxLength="500"
             />
           </div>
           <div className="relative w-full flex flex-col items-start">
@@ -88,7 +92,7 @@ export default function Home() {
               onChange={handleChange}
               className="text-white bg-transparent border-b border-[#a7a7a7] outline-none w-full"
               type="text"
-              maxLength="75"
+              maxLength="250"
             />
           </div>
         </div>
@@ -137,7 +141,7 @@ export default function Home() {
         </div>
         <div className="bg-[#18171c] p-4 w-full rounded-xl flex items-center justify-center h-full">
           {images ? (
-            <div className="w-full h-full">
+            <div className="w-full h-full" onClick={handleOpenImage}>
               <img src={`data:image/png;base64,${images}`} className="w-full h-full object-cover" />
             </div>
           ) : (
