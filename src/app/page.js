@@ -37,20 +37,24 @@ export default function Home() {
 
   const handleSubmit = async () => {
     setLoading(true);
-    await fetch("/api/export-img", { method: "POST", body: JSON.stringify(data) }).then(
-      async (res) => {
-        setLoading(false);
-        console.log(res);
-        const { image } = await res.json();
-        console.log(image);
-        setImages(image);
-      }
-    );
+    await fetch("https://test.aia.tools/api/image-generator", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }).then(async (res) => {
+      const { data } = await res.json();
+      console.log(res);
+      setLoading(false);
+      setImages(data[0]);
+    });
   };
 
   const handleOpenImage = () => {
     window.open(`data:image/png;base64,${images}`, "_blank");
-  }
+  };
 
   return (
     <main className="bg-[#0a0b0f] w-full min-h-[100vh] flex flex-col items-center justify-start py-4">
@@ -142,7 +146,7 @@ export default function Home() {
         <div className="bg-[#18171c] p-4 w-full rounded-xl flex items-center justify-center h-full">
           {images ? (
             <div className="w-full h-full" onClick={handleOpenImage}>
-              <img src={`data:image/png;base64,${images}`} className="w-full h-full object-cover" />
+              <img src={images} className="w-full h-full object-cover" />
             </div>
           ) : (
             <div className="min-h-[50vh] flex items-center justify-center">

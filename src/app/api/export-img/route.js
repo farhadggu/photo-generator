@@ -5,7 +5,7 @@ export async function POST(request) {
   console.log(body);
   try {
     let image = "";
-    await fetch("https://welcome-unlikely-minnow.ngrok-free.app/sdapi/v1/txt2img", {
+    await fetch("https://test.aia.tools/api/image-generator", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
