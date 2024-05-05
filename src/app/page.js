@@ -146,7 +146,9 @@ export default function Home() {
         <div className="bg-[#18171c] p-4 w-full rounded-xl flex items-center justify-center h-full">
           {images ? (
             <div className="w-full h-full" onClick={handleOpenImage}>
-              <img src={images} className="w-full h-full object-cover" />
+              <a href={images} target="_blank">
+                <img src={images} className="w-full h-full object-cover" />
+              </a>
             </div>
           ) : (
             <div className="min-h-[50vh] flex items-center justify-center">
